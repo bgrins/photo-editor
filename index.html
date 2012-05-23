@@ -1,17 +1,18 @@
-
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8">
     <title>JavaScript Image Editor</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
     <meta name="description" content="A demonstration of a basic image editor in JavaScript.">
     <meta name="author" content="Brian Grinstead">
 
+    <!-- build:css css/all.min.css -->
     <link href="css/bootstrap.css" rel="stylesheet">
     <link href="css/ui.css" rel="stylesheet" />
     <link href="css/app.css" rel="stylesheet">
     <link href="css/jquery.Jcrop.css" rel="stylesheet">
+    <!-- endbuild -->
     
     <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
@@ -303,8 +304,12 @@
         </div>
     </div>
 
+    <!-- build:js js/shared.min.js -->
     <script src="js/shared/jquery-1.7.2.js"></script>
     <script src="js/shared/jquery-ui.js"></script>
+    <!-- endbuild -->
+    
+    <!-- build:js js/app.min.js -->
     <script src="js/plugins/bootstrap.js"></script>
     <script src="js/plugins/filereader.js"></script>
     <script src="js/plugins/jquery.jCrop.js"></script>
@@ -312,7 +317,21 @@
     <script src="js/app/processor.js"></script>
     <script src="js/app/controls.js"></script>
     <script src="js/app/app.js"></script>
+    <!-- endbuild -->
+
+    <script type="text/javascript">
     
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-8259845-1']);
+      _gaq.push(['_trackPageview']);
+    
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+    
+    </script>
 
   </body>
 </html>

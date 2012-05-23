@@ -1,3 +1,5 @@
 node_modules
 intermediate
 dist/
+
+.DS_Store

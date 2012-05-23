@@ -4,13 +4,12 @@ module.exports = function(grunt) {
   var staging ='intermediate/';
   var output = 'publish/';
   
-  // Project configuration.
   grunt.initConfig({
     meta: {
-      version: '0.1.0',
-      banner: '/*! Gradient Generator Concept - v<%= meta.version %> - ' +
+      version: '0.1.1',
+      banner: '/*! JavaScript Photo Editor - v<%= meta.version %> - ' +
         '<%= grunt.template.today("yyyy-mm-dd") %>\n' +
-        '* http://briangrinstead.com/gradient/\n' +
+        '* http://briangrinstead.com/photo-editor/\n' +
         '* Copyright (c) <%= grunt.template.today("yyyy") %> ' +
         'Brian Grinstead */'
     },
@@ -27,9 +26,9 @@ module.exports = function(grunt) {
       output: '<config:exclude>'
     },
     rev: {
-      js: 'publish/dist/js/*.js',
-      css: 'publish/dist/js/*.css',
-      img: 'publish/dist/img/**'
+      js: 'dist/js/*.js',
+      css: 'dist/css/*.css',
+      img: 'dist/img/**'
     },
     lint: {
       files: ['grunt.js', 'js/**/*.js', 'test/**/*.js']
@@ -38,30 +37,29 @@ module.exports = function(grunt) {
       files: ['test/**/*.html']
     },
     concat: {
-      dist: {
+      shared: {
         src: ['<banner:meta.banner>', 'js/shared/*.js'],
         dest: 'dist/concat/shared.js'
       },
-      gradient: {
+      app: {
         src: ['<banner:meta.banner>', 'js/plugins/*.js', 'js/app/*.js'],
         dest: 'dist/concat/app.js'
       },
-      gradientHtml: {
+      appHtml: {
         src: ['index.html'],
         dest: 'dist/index.html'
       }
     },
     css: {
-        'dist/css/all.min.css': ['css/bootstrap.css', 'css/ui.css', 'css/jquery.Jcrop.css', 'css/app.css'],
-        'dist/css/all.min.css': ['css/*.css'],
+        'dist/css/all.min.css': ['css/bootstrap.css', 'css/ui.css', 'css/jquery.Jcrop.css', 'css/app.css']
     },
     min: {
       dist: {
-        src: ['<banner:meta.banner>', '<config:concat.dist.dest>'],
+        src: ['<banner:meta.banner>', '<config:concat.shared.dest>'],
         dest: 'dist/js/shared.min.js'
       },
       gradient: {
-        src: ['<banner:meta.banner>', '<config:concat.gradient.dest>'],
+        src: ['<banner:meta.banner>', '<config:concat.app.dest>'],
         dest: 'dist/js/app.min.js'
       }
     },
@@ -91,6 +89,6 @@ module.exports = function(grunt) {
   });
   
   grunt.loadNpmTasks('node-build-script');
-  grunt.registerTask('default', 'concat min');
+  grunt.registerTask('default', 'concat min css usemin');
 
 };
