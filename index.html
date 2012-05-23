@@ -1,0 +1,318 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>JavaScript Image Editor</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A demonstration of a basic image editor in JavaScript.">
+    <meta name="author" content="Brian Grinstead">
+
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="css/ui.css" rel="stylesheet" />
+    <link href="css/app.css" rel="stylesheet">
+    <link href="css/jquery.Jcrop.css" rel="stylesheet">
+    
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <link rel="shortcut icon" href="img/favicon.ico">
+  </head>
+
+  <body>
+
+
+    <div class="container-fluid">
+
+<!--
+
+                    <form class="form-vertical">
+                      <fieldset>
+                        <div class="control-group">
+                          <label class="control-label" for="selectConstraint">Actual Size</label>
+                          <div class="controls">
+                            <input type='text' class='small' value='200' /> x <input type='text' class='small' value='300' />
+                          </div>
+                        </div>
+                        <div class="form-actions">
+                          <button class="btn btn-primary btn-apply">Apply</button>
+                          <button class="btn btn-cancel">Cancel</button>
+                        </div>
+                        
+                      </fieldset>
+                    </form>
+-->
+
+
+    <section id="collapse">
+      <div class="page-header">
+        <h1>JavaScript Image Editing <small>by <a href='http://twitter.com/bgrins'>@bgrins</a></small></h1>
+      </div>
+      <div class="row">
+        <div class="span3 columns">
+          <div class="accordion" id="accordion-controls">
+            
+            <div class="accordion-group">
+              <div class="accordion-heading">
+                <a class="accordion-toggle btn" data-toggle="collapse" data-parent="#accordion-controls" href="#control-crop">
+                  Crop
+                </a>
+              </div>
+              <div id="control-crop" class="accordion-body collapse">
+              
+                <form class="form-vertical">
+                  <fieldset>
+                    <div class="control-group">
+                      <div class="controls">
+                        <select id="selectConstraint">
+                          <option>No Constraint</option>
+                          <option>1</option>
+                          <option>2</option>
+                          <option>3</option>
+                          <option>4</option>
+                          <option>5</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="control-group">
+                      <label class="control-label" for="selectConstraint">Actual Size</label>
+                      <div class="controls">
+                        <input type='text' class='small' value='200' /> x <input type='text' class='small' value='300' />
+                      </div>
+                    </div>
+                    <div class="control-group">
+                        <div class="controls">
+                          <label class="checkbox">
+                            <input type="checkbox" id="optionsCheckbox2" value="option1">
+                            Scale This Photo
+                          </label>
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                      <button class="btn btn-primary btn-apply">Apply</button>
+                      <button class="btn btn-cancel">Cancel</button>
+                    </div>
+                  </fieldset>
+                </form>
+              </div>
+            </div>
+            <div class="accordion-group">
+              <div class="accordion-heading">
+                <a class="accordion-toggle btn" data-toggle="collapse" data-parent="#accordion-controls" href="#control-rotate">
+                  Rotate
+                </a>
+              </div>
+              <div id="control-rotate" class="accordion-body collapse">
+                <div class="accordion-inner">
+                    <form class="form-vertical">
+                      <fieldset>
+                        <div class="control-group">
+                        
+                            <a class='btn btn-apply' data-action="rotateRight" rel="tooltip" data-original-title="Rotate Right">
+                              <span class="ui-icon ui-icon-arrowrefresh-1-s"></span>
+                            </a>
+                            <a class='btn btn-apply' data-action="rotateLeft" rel="tooltip" data-original-title="Rotate Left">
+                              <span class="ui-icon ui-icon-arrowrefresh-1-e"></span>
+                            </a>
+                            <a class='btn btn-apply' data-action="flipv" rel="tooltip" data-original-title="Flip Horizontally" data-toggle="button">
+                              <i class=" icon-resize-horizontal"></i>
+                            </a>
+                            <a class='btn btn-apply' data-action="fliph" rel="tooltip" data-original-title="Flip Vertically" data-toggle="button">
+                              <i class=" icon-resize-vertical"></i>
+                            </a>
+                        </div>
+                        <div class="form-actions">
+                          <button class="btn btn-primary btn-apply">Apply</button>
+                          <button class="btn btn-cancel">Cancel</button>
+                        </div>
+                      </fieldset>
+                    </form>
+                    
+                </div>
+              </div>
+            </div>
+            <div class="accordion-group">
+              <div class="accordion-heading">
+                <a class="accordion-toggle btn" data-toggle="collapse" data-parent="#accordion-controls" href="#control-exposure">
+                  Exposure
+                </a>
+              </div>
+              <div id="control-exposure" class="accordion-body collapse">
+                <div class="accordion-inner">
+                    <form class="form-vertical">
+                      <fieldset>
+                        <div class="control-group">
+                          <label class="control-label" for="selectConstraint">Actual Size</label>
+                          <div class="controls">
+                            <input type='text' class='small' value='200' /> x <input type='text' class='small' value='300' />
+                          </div>
+                        </div>
+                        <div class="form-actions">
+                          <button class="btn btn-primary btn-apply">Apply</button>
+                          <button class="btn btn-cancel">Cancel</button>
+                        </div>
+                      </fieldset>
+                    </form>
+                </div>
+              </div>
+            </div>
+            <div class="accordion-group">
+              <div class="accordion-heading">
+                <a class="accordion-toggle btn" data-toggle="collapse" data-parent="#accordion-controls" href="#control-colors">
+                  Colors
+                </a>
+              </div>
+              <div id="control-colors" class="accordion-body collapse">
+                <div class="accordion-inner">
+                    <form class="form-vertical">
+                      <fieldset>
+                        <div class="control-group">
+                          <label class="control-label" for="selectConstraint">Actual Size</label>
+                          <div class="controls">
+                            <input type='text' class='small' value='200' /> x <input type='text' class='small' value='300' />
+                          </div>
+                        </div>
+                        <div class="form-actions">
+                          <button class="btn btn-primary btn-apply">Apply</button>
+                          <button class="btn btn-cancel">Cancel</button>
+                        </div>
+                      </fieldset>
+                    </form>
+                </div>
+              </div>
+            </div>
+            <div class="accordion-group">
+              <div class="accordion-heading">
+                <a class="accordion-toggle btn" data-toggle="collapse" data-parent="#accordion-controls" href="#control-sharpen">
+                  Sharpen
+                </a>
+              </div>
+              <div id="control-sharpen" class="accordion-body collapse">
+                <div class="accordion-inner">
+                    <form class="form-vertical">
+                      <fieldset>
+                        <div class="control-group">
+                          <label class="control-label" for="selectConstraint">Actual Size</label>
+                          <div class="controls">
+                            <input type='text' class='small' value='200' /> x <input type='text' class='small' value='300' />
+                          </div>
+                        </div>
+                        <div class="form-actions">
+                          <button class="btn btn-primary btn-apply">Apply</button>
+                          <button class="btn btn-cancel">Cancel</button>
+                        </div>
+                      </fieldset>
+                    </form>
+                </div>
+              </div>
+            </div>
+            <div class="accordion-group">
+              <div class="accordion-heading">
+                <a class="accordion-toggle btn" data-toggle="collapse" data-parent="#accordion-controls" href="#control-resize">
+                  Resize
+                </a>
+              </div>
+              <div id="control-resize" class="accordion-body collapse">
+                <div class="accordion-inner">
+                    <form class="form-vertical">
+                      <fieldset>
+                      
+                        <div class="control-group">
+                          <label class="control-label" for="selectConstraint">New Dimensions</label>
+                          <div class="controls">
+                            <input type='text' id='resize-x' class='small' /> x <input  id='resize-y' type='text' class='small' />
+                          </div>
+                        </div>
+                        <div class="control-group">
+                            <div class="controls">
+                              <label class="checkbox">
+                                <input type="checkbox" id="resize-percentages">
+                                Use Percentages
+                              </label>
+                            </div>
+                            <div class="controls">
+                              <label class="checkbox">
+                                <input type="checkbox" id="resize-proportions">
+                                Keep Proportions
+                              </label>
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                          <button class="btn btn-primary btn-apply">Apply</button>
+                          <button class="btn btn-cancel">Cancel</button>
+                        </div>
+                      </fieldset>
+                    </form>
+                </div>
+              </div>
+            </div>
+            
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <div id='app-container'>
+        <div id='layer-tabs' class="btn-group" data-toggle="buttons-radio">
+            <a class="btn active" data-layerid='-1'>Start Page</a>
+        </div>
+        <div id='app-scroller'>  
+        <section id="main" class="flexbox">
+            <section id="box-1" class="flexbox">
+            </section>
+            <section id="box-2" class="flexbox"> 
+                <div id='app-img'>
+                    <div class='layer active' data-layerid='-1'>
+                        <h2>Drag an image in here!!</h2>
+                        <input type='file' id='pick-file' multiple webkitdirectory />
+                        <h2>Or, Choose a Sample Image Below</h2>
+                        <ul id='sample-photos'></ul>
+                    </div>
+                </div>
+            </section>
+            <section id="box-3" class="flexbox">
+                <div id='zoom-container'>
+                    <strong>Zoom</strong><em class='caret'></em> <a href='#' id='zoomFit'>fit</a>
+                    <div id='zoom'></div>
+                </div>
+            </section>
+        </section>
+    
+        </div>
+    </div>
+
+      <footer class="footer">
+        <!--<p class="pull-right"><a href="#">Back to top</a></p>
+        <p>.</p>-->
+      </footer>
+
+        <div id='compatibility-error'>
+            Your browser does not support the features needed for this demo, notably HTML canvas.
+            Sorry :(
+        </div>
+        <div id='debug'>
+			<label>X1 <input type="text" size="4" id="x1" name="x1" /></label>
+			<label>Y1 <input type="text" size="4" id="y1" name="y1" /></label>
+			<label>X2 <input type="text" size="4" id="x2" name="x2" /></label>
+			<label>Y2 <input type="text" size="4" id="y2" name="y2" /></label>
+			<label>W <input type="text" size="4" id="w" name="w" /></label>
+			<label>H <input type="text" size="4" id="h" name="h" /></label>
+        </div>
+    </div>
+
+    <script src="js/shared/jquery-1.7.2.js"></script>
+    <script src="js/shared/jquery-ui.js"></script>
+    <script src="js/plugins/bootstrap.js"></script>
+    <script src="js/plugins/filereader.js"></script>
+    <script src="js/plugins/jquery.jCrop.js"></script>
+    <script src="js/plugins/pixastic.custom.js"></script>
+    <script src="js/app/processor.js"></script>
+    <script src="js/app/controls.js"></script>
+    <script src="js/app/app.js"></script>
+    
+
+  </body>
+</html>
