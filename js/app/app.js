@@ -279,8 +279,8 @@ var Zoom = {
             }
         });
         
-        $("#zoomFit").on("click", function() {
-            if ($(this).hasClass("active")) {
+        $("#zoom-container").on("click", ".btn", function() {
+            if ($("#zoomFit").hasClass("active")) {
                 Zoom.set(1);
             }
             else {

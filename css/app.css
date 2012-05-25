@@ -31,14 +31,15 @@ body.no-compat #compatibility-error {
 .page-header {
     padding-bottom: 8px;
 }
-#app-container .btn-group {
+
+#layer-tabs.btn-group {
     position:absolute;
     top: -30px;
     left: 0;
     max-height: 30px;
     overflow-y: scroll;
 }
-#app-container .btn-group > .btn {
+#layer-tabs.btn-group > .btn {
     border-radius: 0 !important;
 }
 
@@ -171,11 +172,15 @@ margin: 0 auto;
 #zoom-container {
     width: 100px;
     background: white;
-    bottom:0;
-    right:0;
+    opacity: .8;
+    bottom: 3px;
+    right: 3px;
     padding: 5px;
     position:fixed;
     display:none;
+}
+#zoom-container:hover {
+    opacity: 1;
 }
 body.editing #zoom-container {
     display:block;
@@ -184,6 +189,9 @@ body.editing #zoom-container {
     margin-bottom:2px;
 }
 
+#zoom-container .btn-group {
+    margin-bottom: 4px;
+}
 .form-actions {
 text-align: center;
 padding: 4px;
