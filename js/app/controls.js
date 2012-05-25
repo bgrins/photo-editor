@@ -87,6 +87,7 @@ var Rotate = (function() {
                 result = Processor.rotate(img, 90);
             }
             
+            log(result, img);
             return result;
         },
         cancel: function() {

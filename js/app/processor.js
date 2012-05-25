@@ -16,6 +16,15 @@ var Processor = {
 };
 
 
+for (var i in Processor) {
+    Processor[i] = (function(f, i) {
+        return function() {
+            var result = f.apply(Processor, arguments);
+            log("Processed: ", i, arguments, result);
+            return result;
+        }
+    })(Processor[i], i)
+}
 window.Processor = Processor;
 
 })();

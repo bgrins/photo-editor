@@ -37,7 +37,8 @@ body.no-compat #compatibility-error {
     top: -30px;
     left: 0;
     max-height: 30px;
-    overflow-y: scroll;
+    overflow-y: auto;
+    right:0;
 }
 #layer-tabs.btn-group > .btn {
     border-radius: 0 !important;

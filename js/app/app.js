@@ -15,11 +15,22 @@ var SamplePhotos = [
     "photos/Penguins.jpg", "photos/Tulips.jpg"
 ];
 
+var CanvasState = {
+    set: function(id) {
+    
+    },
+    get: function(id) {
+    
+    }
+};
+
 var Layers = (function() {
     
     var layerid = 0;
     var layers = [];
     var active = -1;
+    var activeDOM = $([]);
+    var undoableCanvas = $([]);
     
     return {    
         init: function() {
@@ -36,7 +47,15 @@ var Layers = (function() {
         add: function(img, name) {
         
             var id = layers.push(img) - 1;
-            $(img).addClass("edit-img");
+            
+            var can = document.createElement("canvas");
+            var ctx = can.getContext('2d');
+            can.width = img.width;
+            can.height = img.height;
+            ctx.drawImage(img, 0, 0, img.width, img.height);
+            
+            $(can).addClass("edit-img");
+            
             
             name = name || "Image " + (id + 1);
             var btn = $('<a class="btn"  data-toggle="button"  data-layerid="'+id+'">'+name+'<em><i class="icon-remove"></i></em></a>');
@@ -44,11 +63,9 @@ var Layers = (function() {
             
             
             var newLayer = $("<div class='layer' data-layerid='"+id+"'></div>");
-            newLayer.append(img);
+            newLayer.append(can);
             App.imgContainer.append(newLayer);
             
-            
-            App.body.addClass("editing");
             return id;
         },
         setActive: function(id) {
@@ -58,7 +75,16 @@ var Layers = (function() {
             }
             
             $("[data-layerid]").removeClass("active");
-            $("[data-layerid="+id+"]").addClass("active");
+            activeDOM = $("[data-layerid="+id+"]").addClass("active");
+            
+            // Set up 'undo' point in case they press cancel after a number of modification
+            var initialCanvas = Layers.getActiveCanvas();
+            if (initialCanvas.length) {
+                undoableCanvas = initialCanvas.clone();
+            }
+            else {
+                undoableCanvas = $([]);
+            }
             
             App.setEditing(id !== -1);
             
@@ -68,6 +94,12 @@ var Layers = (function() {
             
             active = id;
             
+        },
+        revert: function() {
+            Layers.getActiveCanvas().replaceWith(undoableCanvas);
+        },
+        getActiveCanvas: function() {
+            return activeDOM.find(".edit-img");
         },
         getActive: function()  {
             return active;
@@ -93,7 +125,7 @@ var ControlsView = (function() {
             accordion.on("click", ".btn-apply", function() {
             
                 if (App.activeControl) {
-                    var img = $(".edit-img")[0];
+                    var img = Layers.getActiveCanvas()[0];
                     App.activeControl.apply(img, $(this).data("action"));
                 }
                 
@@ -104,6 +136,7 @@ var ControlsView = (function() {
             
             accordion.on("click", ".btn-cancel", function() {
                 ControlsView.close();
+                Layers.revert();
                 return false;
             });
             
@@ -208,10 +241,8 @@ var App = {
         
         App.loadImage(SamplePhotos[1], true)
         Layers.setActive(-1);
-        
     },
     setEditing: function(isEditing) {
-        
         isEditing = !!isEditing;
         
         App.body.toggleClass("editing", isEditing);
@@ -249,7 +280,6 @@ var App = {
             App.body.removeClass("loading");
             var id = App.addNewLayer(img);
             if (!loadInBackground) {
-                log(id);
                 Layers.setActive(id);
             }
         };
@@ -257,7 +287,6 @@ var App = {
     },
     getImage: function() {
         return $("#app-img");
-        return $(".edit-img");
     },
     resize: function() {
     
@@ -279,14 +308,14 @@ var Zoom = {
             }
         });
         
-        $("#zoom-container").on("click", ".btn", function() {
+        $("#zoom-container").button().on("click", ".btn", function() {
             if ($("#zoomFit").hasClass("active")) {
                 Zoom.set(1);
             }
             else {
                 Zoom.set("fit");
             }
-        }).button();
+        });
         
         Zoom.set(Zoom.readFromDoc());
         /*
