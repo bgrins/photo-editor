@@ -280,9 +280,15 @@ var Zoom = {
         });
         
         $("#zoomFit").on("click", function() {
-            Zoom.set("fit");
-            return false;
-        });
+            if ($(this).hasClass("active")) {
+                Zoom.set(1);
+            }
+            else {
+                Zoom.set("fit");
+            }
+        }).button();
+        
+        Zoom.set(Zoom.readFromDoc());
         /*
         Zoom._el.attr("max", Zoom.MAX_ZOOM * 100);
         Zoom._el.attr("min", Zoom.MIN_ZOOM * 100);*/
@@ -292,12 +298,13 @@ var Zoom = {
         var num;
         
         if (z === "fit") {
-        
             $("body").addClass("fit");
+            Zoom._el.slider("disable");
             num = 1;
         }
         else {
             num = Math.min(Zoom.MAX_ZOOM, Math.max(Zoom.MIN_ZOOM, z));
+            Zoom._el.slider("enable");
             $("body").removeClass("fit");
         }
         
@@ -307,6 +314,9 @@ var Zoom = {
         Zoom._el.slider("value", num * 100);
         
         App.resize();
+    },
+    readFromDoc: function() {
+        return parseFloat(App.getImage().css("zoom") || 1);
     },
     get: function() {
         return Zoom._el.slider("value")  / 100;

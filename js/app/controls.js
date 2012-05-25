@@ -86,6 +86,8 @@ var Rotate = (function() {
             else if (opts === "rotateLeft") {
                 result = Processor.rotate(img, 90);
             }
+            
+            return result;
         },
         cancel: function() {
         },
