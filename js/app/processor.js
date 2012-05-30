@@ -14,7 +14,16 @@ var Processor = {
         return $(img).pixastic("rotate", { angle: amount });
     }
 };
-
+/*
+Object.keys(Processor).forEach(function(i) {
+    Processor[i] = (function(f, i) {
+        return function() {
+            var result = f.apply(Processor, arguments);
+            log("Processed: ", i, arguments, result);
+            return result;
+        };
+    })(Processor[i], i);
+});*/
 
 for (var i in Processor) {
     Processor[i] = (function(f, i) {
@@ -22,9 +31,10 @@ for (var i in Processor) {
             var result = f.apply(Processor, arguments);
             log("Processed: ", i, arguments, result);
             return result;
-        }
-    })(Processor[i], i)
+        };
+    })(Processor[i], i);
 }
+
 window.Processor = Processor;
 
 })();

@@ -3,7 +3,7 @@ module.exports = function(grunt) {
 
   var staging ='intermediate/';
   var output = 'publish/';
-  
+
   grunt.initConfig({
     meta: {
       version: '0.1.1',
@@ -13,8 +13,9 @@ module.exports = function(grunt) {
         '* Copyright (c) <%= grunt.template.today("yyyy") %> ' +
         'Brian Grinstead */'
     },
-    staging: 'intermediate/',
-    output: 'publish/',
+    lint: {
+      files: ['grunt.js', 'js/app/**/*.js'],
+    },
     staging: staging,
     output: output,
     usemin: {
@@ -29,9 +30,6 @@ module.exports = function(grunt) {
       js: 'dist/js/*.js',
       css: 'dist/css/*.css',
       img: 'dist/img/**'
-    },
-    lint: {
-      files: ['grunt.js', 'js/**/*.js', 'test/**/*.js']
     },
     qunit: {
       files: ['test/**/*.html']
@@ -48,10 +46,12 @@ module.exports = function(grunt) {
       appHtml: {
         src: ['index.html'],
         dest: 'dist/index.html'
+      },
+      css: {
+        src: ['css/bootstrap.css', 'css/ui.css', 'css/jquery.Jcrop.css', 'css/app.css'],
+        dest: 'dist/css/all.concat.css'
+
       }
-    },
-    css: {
-        'dist/css/all.min.css': ['css/bootstrap.css', 'css/ui.css', 'css/jquery.Jcrop.css', 'css/app.css']
     },
     min: {
       dist: {
@@ -63,15 +63,11 @@ module.exports = function(grunt) {
         dest: 'dist/js/app.min.js'
       }
     },
-    watch: {
-      files: '<config:lint.files>',
-      tasks: 'lint qunit'
-    },
     jshint: {
       options: {
         curly: true,
         eqeqeq: true,
-        immed: true,
+        immed: false,
         latedef: true,
         newcap: true,
         noarg: true,
@@ -82,13 +78,30 @@ module.exports = function(grunt) {
         browser: true
       },
       globals: {
-        jQuery: true
+        'Backbone': true,
+        'Handlebars': true,
+        'FileReaderJS': true,
+        '_': true,
+        '$': true,
+        'console': true,
+        'log': true,
+        'SL': true
       }
     },
-    uglify: {}
+    cssmin: {
+      css: {
+        src: '<config:concat.css.dest>',
+        dest: 'dist/css/all.min.css'
+      }
+    }/*,
+    watch: {
+      files: '<config:lint.files>',
+      tasks: 'lint'
+    } */
   });
-  
+
   grunt.loadNpmTasks('node-build-script');
-  grunt.registerTask('default', 'concat min css usemin');
+  grunt.loadNpmTasks('grunt-css');
+  grunt.registerTask('default', 'lint concat min cssmin usemin');
 
 };

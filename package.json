@@ -2,6 +2,7 @@
   "name": "photo-editor",
   "version": "0.0.1",
   "dependencies": {
-    "grunt": "~0.3.9"
+    "grunt": "~0.3.9",
+    "grunt-css":   ">0.0.0"
   }
 }
