@@ -9,9 +9,9 @@ var Pixastic = (function() {
 
 	function addEvent(el, event, handler) {
 		if (el.addEventListener)
-			el.addEventListener(event, handler, false); 
+			el.addEventListener(event, handler, false);
 		else if (el.attachEvent)
-			el.attachEvent("on" + event, handler); 
+			el.attachEvent("on" + event, handler);
 	}
 
 	function onready(handler) {
@@ -31,7 +31,7 @@ var Pixastic = (function() {
 			}
 		}
 		if (document.addEventListener)
-			document.addEventListener("DOMContentLoaded", execHandler, false); 
+			document.addEventListener("DOMContentLoaded", execHandler, false);
 		addEvent(window, "load", execHandler);
 	}
 
@@ -60,14 +60,14 @@ var Pixastic = (function() {
 					if (dataImg.complete) {
 						for (var a=0;a<actions.length;a++) {
 							var res = Pixastic.applyAction(el, el, actions[a], null);
-							if (res) 
+							if (res)
 								el = res;
 						}
 					} else {
 						dataImg.onload = function() {
 							for (var a=0;a<actions.length;a++) {
 								var res = Pixastic.applyAction(el, el, actions[a], null)
-								if (res) 
+								if (res)
 									el = res;
 							}
 						}
@@ -78,7 +78,7 @@ var Pixastic = (function() {
 							var res = Pixastic.applyAction(
 								el, el, actions[a], null
 							);
-							if (res) 
+							if (res)
 								el = res;
 						}
 					},1);
@@ -118,7 +118,7 @@ var Pixastic = (function() {
 		if (!Pixastic.debug) return;
 		try {
 			switch (level) {
-				case "warn" : 
+				case "warn" :
 					console.warn("Pixastic:", text);
 					break;
 				case "error" :
@@ -130,7 +130,7 @@ var Pixastic = (function() {
 		} catch(e) {
 		}
 		if (!debugElement) {
-			
+
 		}
 	}
 
@@ -169,17 +169,17 @@ var Pixastic = (function() {
 			var redctx = red.getContext("2d");
 			redctx.fillStyle = "rgb(255,0,0)";
 			redctx.fillRect(0,0,1,1);
-	
+
 			var blue = document.createElement("canvas");
 			blue.width = blue.height = 1;
 			var bluectx = blue.getContext("2d");
 			bluectx.fillStyle = "rgb(0,0,255)";
 			bluectx.fillRect(0,0,1,1);
-	
+
 			redctx.globalAlpha = 0.5;
 			redctx.drawImage(blue, 0, 0);
 			var reddata = redctx.getImageData(0,0,1,1).data;
-	
+
 			hasAlpha = (reddata[2] != 255);
 		}
 		return function() {
@@ -195,7 +195,7 @@ var Pixastic = (function() {
 		parseOnLoad : false,
 
 		debug : false,
-		
+
 		applyAction : function(img, dataImg, actionName, options) {
 
 			options = options || {};
@@ -507,7 +507,7 @@ Pixastic.Actions.blend = {
 			var dataChanged = false;
 
 			switch (mode) {
-				case "normal" : 
+				case "normal" :
 					//while (p--) {
 					//	data2[pix-=4] = data2[pix];
 					//	data2[pix1=pix+1] = data2[pix1];
@@ -515,7 +515,7 @@ Pixastic.Actions.blend = {
 					//}
 					break;
 
-				case "multiply" : 
+				case "multiply" :
 					while (p--) {
 						data2[pix-=4] = data[pix] * data2[pix] / 255;
 						data2[pix1=pix+1] = data[pix1] * data2[pix1] / 255;
@@ -524,7 +524,7 @@ Pixastic.Actions.blend = {
 					dataChanged = true;
 					break;
 
-				case "lighten" : 
+				case "lighten" :
 					while (p--) {
 						if ((r1 = data[pix-=4]) > data2[pix])
 							data2[pix] = r1;
@@ -536,7 +536,7 @@ Pixastic.Actions.blend = {
 					dataChanged = true;
 					break;
 
-				case "darken" : 
+				case "darken" :
 					while (p--) {
 						if ((r1 = data[pix-=4]) < data2[pix])
 							data2[pix] = r1;
@@ -549,7 +549,7 @@ Pixastic.Actions.blend = {
 					dataChanged = true;
 					break;
 
-				case "darkercolor" : 
+				case "darkercolor" :
 					while (p--) {
 						if (((r1 = data[pix-=4])*0.3+(g1 = data[pix1=pix+1])*0.59+(b1 = data[pix2=pix+2])*0.11) <= (data2[pix]*0.3+data2[pix1]*0.59+data2[pix2]*0.11)) {
 							data2[pix] = r1;
@@ -560,7 +560,7 @@ Pixastic.Actions.blend = {
 					dataChanged = true;
 					break;
 
-				case "lightercolor" : 
+				case "lightercolor" :
 					while (p--) {
 						if (((r1 = data[pix-=4])*0.3+(g1 = data[pix1=pix+1])*0.59+(b1 = data[pix2=pix+2])*0.11) > (data2[pix]*0.3+data2[pix1]*0.59+data2[pix2]*0.11)) {
 							data2[pix] = r1;
@@ -571,7 +571,7 @@ Pixastic.Actions.blend = {
 					dataChanged = true;
 					break;
 
-				case "lineardodge" : 
+				case "lineardodge" :
 					/*
 					otherCtx.globalCompositeOperation = "source-over";
 					otherCtx.drawImage(params.canvas, 0, 0);
@@ -597,7 +597,7 @@ Pixastic.Actions.blend = {
 
 					break;
 
-				case "linearburn" : 
+				case "linearburn" :
 					while (p--) {
 						if ((r3 = data[pix-=4] + data2[pix]) < 255)
 							data2[pix] = 0;
@@ -615,7 +615,7 @@ Pixastic.Actions.blend = {
 					dataChanged = true;
 					break;
 
-				case "difference" : 
+				case "difference" :
 					while (p--) {
 						if ((r3 = data[pix-=4] - data2[pix]) < 0)
 							data2[pix] = -r3;
@@ -633,7 +633,7 @@ Pixastic.Actions.blend = {
 					dataChanged = true;
 					break;
 
-				case "screen" : 
+				case "screen" :
 					while (p--) {
 						data2[pix-=4] = (255 - ( ((255-data2[pix])*(255-data[pix])) >> 8));
 						data2[pix1=pix+1] = (255 - ( ((255-data2[pix1])*(255-data[pix1])) >> 8));
@@ -642,7 +642,7 @@ Pixastic.Actions.blend = {
 					dataChanged = true;
 					break;
 
-				case "exclusion" : 
+				case "exclusion" :
 					var div_2_255 = 2 / 255;
 					while (p--) {
 						data2[pix-=4] = (r1 = data[pix]) - (r1 * div_2_255 - 1) * data2[pix];
@@ -652,7 +652,7 @@ Pixastic.Actions.blend = {
 					dataChanged = true;
 					break;
 
-				case "overlay" : 
+				case "overlay" :
 					var div_2_255 = 2 / 255;
 					while (p--) {
 						if ((r1 = data[pix-=4]) < 128)
@@ -674,7 +674,7 @@ Pixastic.Actions.blend = {
 					dataChanged = true;
 					break;
 
-				case "softlight" : 
+				case "softlight" :
 					var div_2_255 = 2 / 255;
 					while (p--) {
 						if ((r1 = data[pix-=4]) < 128)
@@ -696,7 +696,7 @@ Pixastic.Actions.blend = {
 					dataChanged = true;
 					break;
 
-				case "hardlight" : 
+				case "hardlight" :
 					var div_2_255 = 2 / 255;
 					while (p--) {
 						if ((r2 = data2[pix-=4]) < 128)
@@ -718,7 +718,7 @@ Pixastic.Actions.blend = {
 					dataChanged = true;
 					break;
 
-				case "colordodge" : 
+				case "colordodge" :
 					while (p--) {
 						if ((r3 = (data[pix-=4]<<8)/(255-(r2 = data2[pix]))) > 255 || r2 == 255)
 							data2[pix] = 255;
@@ -738,7 +738,7 @@ Pixastic.Actions.blend = {
 					dataChanged = true;
 					break;
 
-				case "colorburn" : 
+				case "colorburn" :
 					while (p--) {
 						if ((r3 = 255-((255-data[pix-=4])<<8)/data2[pix]) < 0 || data2[pix] == 0)
 							data2[pix] = 0;
@@ -758,7 +758,7 @@ Pixastic.Actions.blend = {
 					dataChanged = true;
 					break;
 
-				case "linearlight" : 
+				case "linearlight" :
 					while (p--) {
 						if ( ((r3 = 2*(r2=data2[pix-=4])+data[pix]-256) < 0) || (r2 < 128 && r3 < 0)) {
 							data2[pix] = 0
@@ -788,11 +788,11 @@ Pixastic.Actions.blend = {
 					dataChanged = true;
 					break;
 
-				case "vividlight" : 
+				case "vividlight" :
 					while (p--) {
 						if ((r2=data2[pix-=4]) < 128) {
 							if (r2) {
-								if ((r3 = 255 - ((255-data[pix])<<8) / (2*r2)) < 0) 
+								if ((r3 = 255 - ((255-data[pix])<<8) / (2*r2)) < 0)
 									data2[pix] = 0;
 								else
 									data2[pix] = r3
@@ -800,12 +800,12 @@ Pixastic.Actions.blend = {
 								data2[pix] = 0;
 							}
 						} else if ((r3 = (r4=2*r2-256)) < 255) {
-							if ((r3 = (data[pix]<<8)/(255-r4)) > 255) 
+							if ((r3 = (data[pix]<<8)/(255-r4)) > 255)
 								data2[pix] = 255;
 							else
 								data2[pix] = r3;
 						} else {
-							if (r3 < 0) 
+							if (r3 < 0)
 								data2[pix] = 0;
 							else
 								data2[pix] = r3
@@ -813,7 +813,7 @@ Pixastic.Actions.blend = {
 
 						if ((g2=data2[pix1=pix+1]) < 128) {
 							if (g2) {
-								if ((g3 = 255 - ((255-data[pix1])<<8) / (2*g2)) < 0) 
+								if ((g3 = 255 - ((255-data[pix1])<<8) / (2*g2)) < 0)
 									data2[pix1] = 0;
 								else
 									data2[pix1] = g3;
@@ -826,7 +826,7 @@ Pixastic.Actions.blend = {
 							else
 								data2[pix1] = g3;
 						} else {
-							if (g3 < 0) 
+							if (g3 < 0)
 								data2[pix1] = 0;
 							else
 								data2[pix1] = g3;
@@ -834,7 +834,7 @@ Pixastic.Actions.blend = {
 
 						if ((b2=data2[pix2=pix+2]) < 128) {
 							if (b2) {
-								if ((b3 = 255 - ((255-data[pix2])<<8) / (2*b2)) < 0) 
+								if ((b3 = 255 - ((255-data[pix2])<<8) / (2*b2)) < 0)
 									data2[pix2] = 0;
 								else
 									data2[pix2] = b3;
@@ -842,12 +842,12 @@ Pixastic.Actions.blend = {
 								data2[pix2] = 0;
 							}
 						} else if ((b3 = (b4=2*b2-256)) < 255) {
-							if ((b3 = (data[pix2]<<8)/(255-b4)) > 255) 
+							if ((b3 = (data[pix2]<<8)/(255-b4)) > 255)
 								data2[pix2] = 255;
 							else
 								data2[pix2] = b3;
 						} else {
-							if (b3 < 0) 
+							if (b3 < 0)
 								data2[pix2] = 0;
 							else
 								data2[pix2] = b3;
@@ -856,7 +856,7 @@ Pixastic.Actions.blend = {
 					dataChanged = true;
 					break;
 
-				case "pinlight" : 
+				case "pinlight" :
 					while (p--) {
 						if ((r2=data2[pix-=4]) < 128)
 							if ((r1=data[pix]) < (r4=2*r2))
@@ -894,7 +894,7 @@ Pixastic.Actions.blend = {
 					dataChanged = true;
 					break;
 
-				case "hardmix" : 
+				case "hardmix" :
 					while (p--) {
 						if ((r2 = data2[pix-=4]) < 128)
 							if (255 - ((255-data[pix])<<8)/(2*r2) < 128 || r2 == 0)
@@ -930,7 +930,7 @@ Pixastic.Actions.blend = {
 					break;
 			}
 
-			if (dataChanged) 
+			if (dataChanged)
 				otherCtx.putImageData(dataDesc2,0,0);
 
 			if (amount != 1 && !Pixastic.Client.hasGlobalAlpha()) {
@@ -1027,14 +1027,14 @@ Pixastic.Actions.blur = {
 
 					var offsetPrev = offsetYPrev + ((x == 1) ? 0 : x-2) * 4;
 					var offsetNext = offsetYNext + ((x == w) ? x-1 : x) * 4;
-	
+
 					data[offset] = (
 						/*
 						dataCopy[offsetPrev - 4]
-						+ dataCopy[offsetPrev+4] 
+						+ dataCopy[offsetPrev+4]
 						+ dataCopy[offsetNext - 4]
 						+ dataCopy[offsetNext+4]
-						+ 
+						+
 						*/
 						(dataCopy[offsetPrev]
 						+ dataCopy[offset-4]
@@ -1046,10 +1046,10 @@ Pixastic.Actions.blur = {
 					data[offset+1] = (
 						/*
 						dataCopy[offsetPrev - 3]
-						+ dataCopy[offsetPrev+5] 
-						+ dataCopy[offsetNext - 3] 
+						+ dataCopy[offsetPrev+5]
+						+ dataCopy[offsetNext - 3]
 						+ dataCopy[offsetNext+5]
-						+ 
+						+
 						*/
 						(dataCopy[offsetPrev+1]
 						+ dataCopy[offset-3]
@@ -1060,11 +1060,11 @@ Pixastic.Actions.blur = {
 
 					data[offset+2] = (
 						/*
-						dataCopy[offsetPrev - 2] 
-						+ dataCopy[offsetPrev+6] 
-						+ dataCopy[offsetNext - 2] 
+						dataCopy[offsetPrev - 2]
+						+ dataCopy[offsetPrev+6]
+						+ dataCopy[offsetNext - 2]
 						+ dataCopy[offsetNext+6]
-						+ 
+						+
 						*/
 						(dataCopy[offsetPrev+2]
 						+ dataCopy[offset-2]
@@ -1130,18 +1130,18 @@ Pixastic.Actions.blurfast = {
 			for (var i=0;i<steps;i++) {
 				var scaledWidth = Math.max(1,Math.round(smallWidth - i));
 				var scaledHeight = Math.max(1,Math.round(smallHeight - i));
-	
+
 				copyCtx.clearRect(0,0,smallWidth,smallHeight);
-	
+
 				copyCtx.drawImage(
 					params.canvas,
 					0,0,params.width,params.height,
 					0,0,scaledWidth,scaledHeight
 				);
-	
+
 				if (clear)
 					ctx.clearRect(rect.left,rect.top,rect.width,rect.height);
-	
+
 				ctx.drawImage(
 					copy,
 					0,0,scaledWidth,scaledHeight,
@@ -1226,14 +1226,14 @@ Pixastic.Actions.brightness = {
 				else
  					data[pix] = r;
 
-				if ((g = data[pix1=pix+1] * mul + add) > 255 ) 
+				if ((g = data[pix1=pix+1] * mul + add) > 255 )
 					data[pix1] = 255;
 				else if (g < 0)
 					data[pix1] = 0;
 				else
 					data[pix1] = g;
 
-				if ((b = data[pix2=pix+2] * mul + add) > 255 ) 
+				if ((b = data[pix2=pix+2] * mul + add) > 255 )
 					data[pix2] = 255;
 				else if (b < 0)
 					data[pix2] = 0;
@@ -1277,27 +1277,27 @@ Pixastic.Actions.coloradjust = {
 				pix -= 4;
 
 				if (red) {
-					if ((r = data[pix] + red) < 0 ) 
+					if ((r = data[pix] + red) < 0 )
 						data[pix] = 0;
-					else if (r > 255 ) 
+					else if (r > 255 )
 						data[pix] = 255;
 					else
 						data[pix] = r;
 				}
 
 				if (green) {
-					if ((g = data[pix1=pix+1] + green) < 0 ) 
+					if ((g = data[pix1=pix+1] + green) < 0 )
 						data[pix1] = 0;
-					else if (g > 255 ) 
+					else if (g > 255 )
 						data[pix1] = 255;
 					else
 						data[pix1] = g;
 				}
 
 				if (blue) {
-					if ((b = data[pix2=pix+2] + blue) < 0 ) 
+					if ((b = data[pix2=pix+2] + blue) < 0 )
 						data[pix2] = 0;
-					else if (b > 255 ) 
+					else if (b > 255 )
 						data[pix2] = 255;
 					else
 						data[pix2] = b;
@@ -1324,7 +1324,7 @@ Pixastic.Actions.colorhistogram = {
 		for (var i=0; i<256; i++) { arr[i] = default_value; }
 		return arr
 	},
- 
+
 	process : function(params) {
 		var values = [];
 		if (typeof params.options.returnValue != "object") {
@@ -1338,15 +1338,15 @@ Pixastic.Actions.colorhistogram = {
 			returnValue.gvals = [];
 			returnValue.bvals = [];
 		}
- 
+
 		if (Pixastic.Client.hasCanvasImageData()) {
 			var data = Pixastic.prepareData(params);
 			params.useData = false;
- 
+
 			var rvals = this.array256(0);
 			var gvals = this.array256(0);
 			var bvals = this.array256(0);
- 
+
 			var rect = params.options.rect;
 
 			var p = rect.width*rect.height;
@@ -1356,7 +1356,7 @@ Pixastic.Actions.colorhistogram = {
 				gvals[data[pix+1]]++;
 				bvals[data[pix+2]]++;
 			}
- 
+
 			returnValue.rvals = rvals;
 			returnValue.gvals = gvals;
 			returnValue.bvals = bvals;
@@ -1475,7 +1475,7 @@ Pixastic.Actions.desaturate = {
 			var pix = p*4, pix1, pix2;
 
 			if (useAverage) {
-				while (p--) 
+				while (p--)
 					data[pix-=4] = data[pix1=pix+1] = data[pix2=pix+2] = (data[pix]+data[pix1]+data[pix2])/3
 			} else {
 				while (p--)
@@ -1536,7 +1536,7 @@ Pixastic.Actions.edges = {
 
 					var offsetPrev = offsetYPrev + ((x == 1) ? 0 : x-2) * 4;
 					var offsetNext = offsetYNext + ((x == w) ? x-1 : x) * 4;
-	
+
 					var r = ((dataCopy[offsetPrev-4]
 						+ dataCopy[offsetPrev]
 						+ dataCopy[offsetPrev+4]
@@ -1546,9 +1546,9 @@ Pixastic.Actions.edges = {
 						+ dataCopy[offsetNext]
 						+ dataCopy[offsetNext+4]) * c
 						+ dataCopy[offset]
-						) 
+						)
 						* weight;
-	
+
 					var g = ((dataCopy[offsetPrev-3]
 						+ dataCopy[offsetPrev+1]
 						+ dataCopy[offsetPrev+5]
@@ -1559,7 +1559,7 @@ Pixastic.Actions.edges = {
 						+ dataCopy[offsetNext+5]) * c
 						+ dataCopy[offset+1])
 						* weight;
-	
+
 					var b = ((dataCopy[offsetPrev-2]
 						+ dataCopy[offsetPrev+2]
 						+ dataCopy[offsetPrev+6]
@@ -1608,7 +1608,7 @@ Pixastic.Actions.edges = {
  * Pixastic Lib - Edge detection 2 - v0.1.0
  * Copyright (c) 2008 Jacob Seidelin, jseidelin@nihilogic.dk, http://blog.nihilogic.dk/
  * License: [http://www.pixastic.com/lib/license.txt]
- * 
+ *
  * Contribution by Oliver Hunt (http://nerget.com/, http://nerget.com/canvas/edgeDetection.js). Thanks Oliver!
  *
  */
@@ -1633,53 +1633,53 @@ Pixastic.Actions.edges2 = {
 				var centerRow = pixel - 4;
 				var priorRow = centerRow - w4;
 				var nextRow = centerRow + w4;
-				
+
 				var r1 = - dataCopy[priorRow]   - dataCopy[centerRow]   - dataCopy[nextRow];
 				var g1 = - dataCopy[++priorRow] - dataCopy[++centerRow] - dataCopy[++nextRow];
 				var b1 = - dataCopy[++priorRow] - dataCopy[++centerRow] - dataCopy[++nextRow];
-				
+
 				var rp = dataCopy[priorRow += 2];
 				var gp = dataCopy[++priorRow];
 				var bp = dataCopy[++priorRow];
-				
+
 				var rc = dataCopy[centerRow += 2];
 				var gc = dataCopy[++centerRow];
 				var bc = dataCopy[++centerRow];
-				
+
 				var rn = dataCopy[nextRow += 2];
 				var gn = dataCopy[++nextRow];
 				var bn = dataCopy[++nextRow];
-				
+
 				var r2 = - rp - rc - rn;
 				var g2 = - gp - gc - gn;
 				var b2 = - bp - bc - bn;
-				
+
 				// Main convolution loop
 				for (var x = 1; x < wm1; ++x) {
 					centerRow = pixel + 4;
 					priorRow = centerRow - w4;
 					nextRow = centerRow + w4;
-					
+
 					var r = 127 + r1 - rp - (rc * -8) - rn;
 					var g = 127 + g1 - gp - (gc * -8) - gn;
 					var b = 127 + b1 - bp - (bc * -8) - bn;
-					
+
 					r1 = r2;
 					g1 = g2;
 					b1 = b2;
-					
+
 					rp = dataCopy[  priorRow];
 					gp = dataCopy[++priorRow];
 					bp = dataCopy[++priorRow];
-					
+
 					rc = dataCopy[  centerRow];
 					gc = dataCopy[++centerRow];
 					bc = dataCopy[++centerRow];
-					
+
 					rn = dataCopy[  nextRow];
 					gn = dataCopy[++nextRow];
 					bn = dataCopy[++nextRow];
-					
+
 					r += (r2 = - rp - rc - rn);
 					g += (g2 = - gp - gc - gn);
 					b += (b2 = - bp - bc - bn);
@@ -1867,7 +1867,7 @@ Pixastic.Actions.flip = {
 
 		params.useData = false;
 
-		return true;		
+		return true;
 	},
 	checkSupport : function() {
 		return Pixastic.Client.hasCanvas();
@@ -1895,7 +1895,7 @@ Pixastic.Actions.fliph = {
 			ctx.drawImage(copyCanvas, -rect.left-rect.width, rect.top, rect.width, rect.height)
 			params.useData = false;
 
-			return true;		
+			return true;
 
 		} else if (Pixastic.Client.isIE()) {
 			params.image.style.filter += " fliph";
@@ -1928,7 +1928,7 @@ Pixastic.Actions.flipv = {
 			ctx.drawImage(copyCanvas, rect.left, -rect.top-rect.height, rect.width, rect.height)
 			params.useData = false;
 
-			return true;		
+			return true;
 
 		} else if (Pixastic.Client.isIE()) {
 			params.image.style.filter += " flipv";
@@ -1980,17 +1980,17 @@ Pixastic.Actions.glow = {
 			for (var i=0;i<steps;i++) {
 				var scaledWidth = Math.max(1,Math.round(smallWidth - i));
 				var scaledHeight = Math.max(1,Math.round(smallHeight - i));
-	
+
 				copyCtx.clearRect(0,0,smallWidth,smallHeight);
-	
+
 				copyCtx.drawImage(
 					blurCanvas,
 					0,0,params.width,params.height,
 					0,0,scaledWidth,scaledHeight
 				);
-	
+
 				blurCtx.clearRect(0,0,params.width,params.height);
-	
+
 				blurCtx.drawImage(
 					copy,
 					0,0,scaledWidth,scaledHeight,
@@ -2139,7 +2139,7 @@ Pixastic.Actions.hsl = {
 				var b = data[pix2=pix+2];
 
 				if (hue != 0 || saturation != 0) {
-					// ok, here comes rgb to hsl + adjust + hsl to rgb, all in one jumbled mess. 
+					// ok, here comes rgb to hsl + adjust + hsl to rgb, all in one jumbled mess.
 					// It's not so pretty, but it's been optimized to get somewhat decent performance.
 					// The transforms were originally adapted from the ones found in Graphics Gems, but have been heavily modified.
 					var vs = r;
@@ -2208,21 +2208,21 @@ Pixastic.Actions.hsl = {
 					b = b * lightm1 + light255;
 				}
 
-				if (r < 0) 
+				if (r < 0)
 					data[pix] = 0
 				else if (r > 255)
 					data[pix] = 255
 				else
 					data[pix] = r;
 
-				if (g < 0) 
+				if (g < 0)
 					data[pix1] = 0
 				else if (g > 255)
 					data[pix1] = 255
 				else
 					data[pix1] = g;
 
-				if (b < 0) 
+				if (b < 0)
 					data[pix2] = 0
 				else if (b > 255)
 					data[pix2] = 255
@@ -2325,7 +2325,7 @@ Pixastic.Actions.laplace = {
 
 					var offsetPrev = offsetYPrev + ((x == 1) ? 0 : x-2) * 4;
 					var offsetNext = offsetYNext + ((x == w) ? x-1 : x) * 4;
-	
+
 					var r = ((-dataCopy[offsetPrev-4]
 						- dataCopy[offsetPrev]
 						- dataCopy[offsetPrev+4]
@@ -2334,9 +2334,9 @@ Pixastic.Actions.laplace = {
 						- dataCopy[offsetNext-4]
 						- dataCopy[offsetNext]
 						- dataCopy[offsetNext+4])
-						+ dataCopy[offset] * 8) 
+						+ dataCopy[offset] * 8)
 						* weight;
-	
+
 					var g = ((-dataCopy[offsetPrev-3]
 						- dataCopy[offsetPrev+1]
 						- dataCopy[offsetPrev+5]
@@ -2347,7 +2347,7 @@ Pixastic.Actions.laplace = {
 						- dataCopy[offsetNext+5])
 						+ dataCopy[offset+1] * 8)
 						* weight;
-	
+
 					var b = ((-dataCopy[offsetPrev-2]
 						- dataCopy[offsetPrev+2]
 						- dataCopy[offsetPrev+6]
@@ -2482,7 +2482,7 @@ Pixastic.Actions.mosaic = {
 				for (var x=0;x<w;x+=blockSize) {
 					var blockSizeX = blockSize;
 					var blockSizeY = blockSize;
-		
+
 					if (blockSizeX + x > w)
 						blockSizeX = w - x;
 					if (blockSizeY + y > h)
@@ -2585,7 +2585,7 @@ Pixastic.Actions.posterize = {
 
 	process : function(params) {
 
-		
+
 		var numLevels = 256;
 		if (typeof params.options.levels != "undefined")
 			numLevels = parseInt(params.options.levels,10)||1;
@@ -2594,7 +2594,7 @@ Pixastic.Actions.posterize = {
 			var data = Pixastic.prepareData(params);
 
 			numLevels = Math.max(2,Math.min(256,numLevels));
-	
+
 			var numAreas = 256 / numLevels;
 			var numValues = 256 / (numLevels-1);
 
@@ -2936,7 +2936,7 @@ Pixastic.Actions.sepia = {
 						var or = data[offset];
 						var og = data[offset+1];
 						var ob = data[offset+2];
-	
+
 						var r = (or * 0.393 + og * 0.769 + ob * 0.189);
 						var g = (or * 0.349 + og * 0.686 + ob * 0.168);
 						var b = (or * 0.272 + og * 0.534 + ob * 0.131);
@@ -3167,9 +3167,9 @@ Pixastic.Actions.unsharpmask = {
 					0,0,params.width,params.height,
 					0,0,scaledWidth,scaledHeight
 				);
-	
+
 				blurCtx.clearRect(0,0,params.width,params.height);
-	
+
 				blurCtx.drawImage(
 					copy,
 					0,0,scaledWidth,scaledHeight,
@@ -3219,7 +3219,7 @@ Pixastic.Actions.unsharpmask = {
 	checkSupport : function() {
 		return Pixastic.Client.hasCanvasImageData();
 	}
-}
+};
 
 
 
