@@ -33,7 +33,7 @@ var Resize = (function() {
 
     var View = {
         init: function() {
-            this.domPercentages = $('#resize-percentages');
+            var domPercentages = this.domPercentages = $('#resize-percentages');
             this.domProportions = $('#resize-proportions');
             this.domX = $('#resize-x');
             this.domY = $('#resize-y');
@@ -152,7 +152,7 @@ var Crop = (function() {
             if (jcrop_api && coords) {
                 var rect = {
                     left : coords.x, top : coords.y, width : coords.w, height : coords.h
-                }
+                };
                 window.RECT = rect;
                 result = Processor.crop(img, rect);
             }

@@ -1,7 +1,4 @@
 
-window.log = function f(){ log.history = log.history || []; log.history.push(arguments); if(this.console) { var args = arguments, newarr; try { args.callee = f.caller } catch(e) {}; newarr = [].slice.call(args); if (typeof console.log === 'object') log.apply.call(console.log, console, newarr); else console.log.apply(console, newarr);}};
-(function(a){function b(){}for(var c="assert,count,debug,dir,dirxml,error,exception,group,groupCollapsed,groupEnd,info,log,markTimeline,profile,profileEnd,time,timeEnd,trace,warn".split(","),d;!!(d=c.pop());){a[d]=a[d]||b;}})
-(function(){try{console.log();return window.console;}catch(a){return (window.console={});}}());
 
 $("#debug").click(function() {
     $(this).toggleClass("active");
@@ -109,7 +106,7 @@ var Layers = (function() {
             layers[id] = null;
             Layers.setActive(active);
         }
-    }
+    };
 })();
 
 var ControlsView = (function() {
@@ -201,16 +198,16 @@ var App = {
 
         var opts = {
             on: {
-            	load: function(e, file) {
+                load: function(e, file) {
                     if (file.type.match(/image/)) {
                         App.loadImage(e.target.result);
                     }
-            	},
-            	skip: function() {
+                },
+                skip: function() {
 
-            	},
-            	error: function(e, file) {
-            		App.body.addClass("error");
+                },
+                error: function(e, file) {
+                    App.body.addClass("error");
                 }
             }
         };
@@ -238,7 +235,7 @@ var App = {
           selector: "a[rel=tooltip]"
         });
 
-        App.loadImage(SamplePhotos[1], true)
+        App.loadImage(SamplePhotos[1], true);
         Layers.setActive(-1);
     },
     setEditing: function(isEditing) {
@@ -290,12 +287,12 @@ var App = {
     resize: function() {
 
     }
-}
+};
 
 var Zoom = {
     _el: null,
     MAX_ZOOM: 4,
-    MIN_ZOOM: .1,
+    MIN_ZOOM: 0.1,
 
     init: function() {
         Zoom._el = $("#zoom");
@@ -353,14 +350,14 @@ var Zoom = {
         Zoom.set(1);
     },
     bumpUp: function() {
-        Zoom.set (Zoom.get()+ .5);
+        Zoom.set (Zoom.get()+ 0.5);
         return false;
     },
     bumpDown: function() {
-        Zoom.set (Zoom.get() - .5);
+        Zoom.set (Zoom.get() - 0.5);
         return false;
     }
-}
+};
 
 
 $(App.init);

@@ -14,7 +14,7 @@ module.exports = function(grunt) {
         'Brian Grinstead */'
     },
     lint: {
-      files: ['grunt.js', 'js/app/**/*.js'],
+      files: ['grunt.js', 'js/app/**/*.js']
     },
     staging: staging,
     output: output,
@@ -72,7 +72,7 @@ module.exports = function(grunt) {
         newcap: true,
         noarg: true,
         sub: true,
-        undef: true,
+        undef: false,
         boss: true,
         eqnull: true,
         browser: true

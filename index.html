@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <title>JavaScript Image Editor</title>
-    
+
     <meta name="description" content="A demonstration of a basic image editor in JavaScript.">
     <meta name="author" content="Brian Grinstead">
 
@@ -13,7 +13,7 @@
     <link href="css/app.css" rel="stylesheet">
     <link href="css/jquery.Jcrop.css" rel="stylesheet">
     <!-- endbuild -->
-    
+
     <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
       <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
@@ -41,7 +41,7 @@
                           <button class="btn btn-primary btn-apply">Apply</button>
                           <button class="btn btn-cancel">Cancel</button>
                         </div>
-                        
+
                       </fieldset>
                     </form>
 -->
@@ -54,7 +54,7 @@
       <div class="row">
         <div class="span3 columns">
           <div class="accordion" id="accordion-controls">
-            
+
             <div class="accordion-group">
               <div class="accordion-heading">
                 <a class="accordion-toggle btn" data-toggle="collapse" data-parent="#accordion-controls" href="#control-crop">
@@ -62,7 +62,7 @@
                 </a>
               </div>
               <div id="control-crop" class="accordion-body collapse">
-              
+
                 <form class="form-vertical">
                   <fieldset>
                     <div class="control-group">
@@ -110,7 +110,7 @@
                     <form class="form-vertical">
                       <fieldset>
                         <div class="control-group">
-                        
+
                             <a class='btn btn-apply' data-action="rotateRight" rel="tooltip" data-original-title="Rotate Right">
                               <span class="ui-icon ui-icon-arrowrefresh-1-s"></span>
                             </a>
@@ -130,7 +130,7 @@
                         </div>
                       </fieldset>
                     </form>
-                    
+
                 </div>
               </div>
             </div>
@@ -219,7 +219,7 @@
                 <div class="accordion-inner">
                     <form class="form-vertical">
                       <fieldset>
-                      
+
                         <div class="control-group">
                           <label class="control-label" for="selectConstraint">New Dimensions</label>
                           <div class="controls">
@@ -249,7 +249,7 @@
                 </div>
               </div>
             </div>
-            
+
           </div>
 
         </div>
@@ -260,11 +260,11 @@
         <div id='layer-tabs' class="btn-group" data-toggle="buttons-radio">
             <a class="btn active" data-layerid='-1'>Start Page</a>
         </div>
-        <div id='app-scroller'>  
+        <div id='app-scroller'>
         <section id="main" class="flexbox">
             <section id="box-1" class="flexbox">
             </section>
-            <section id="box-2" class="flexbox"> 
+            <section id="box-2" class="flexbox">
                 <div id='app-img'>
                     <div class='layer active' data-layerid='-1'>
                         <h2>Drag an image in here!!</h2>
@@ -284,7 +284,7 @@
                 </div>
             </section>
         </section>
-    
+
         </div>
     </div>
 
@@ -311,29 +311,33 @@
     <script src="js/shared/jquery-1.7.2.js"></script>
     <script src="js/shared/jquery-ui.js"></script>
     <!-- endbuild -->
-    
+
     <!-- build:js js/app.min.js -->
     <script src="js/plugins/bootstrap.js"></script>
+    <script src="js/plugins/common.js"></script>
+    <script src="js/plugins/timeago.js"></script>
+    <script src="js/plugins/underscore.js"></script>
     <script src="js/plugins/filereader.js"></script>
     <script src="js/plugins/jquery.jCrop.js"></script>
     <script src="js/plugins/pixastic.custom.js"></script>
+    <script src="js/plugins/handlebars.js"></script>
     <script src="js/app/processor.js"></script>
     <script src="js/app/controls.js"></script>
     <script src="js/app/app.js"></script>
     <!-- endbuild -->
 
     <script type="text/javascript">
-    
+
       var _gaq = _gaq || [];
       _gaq.push(['_setAccount', 'UA-8259845-1']);
       _gaq.push(['_trackPageview']);
-    
+
       (function() {
         var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
         ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
         var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
       })();
-    
+
     </script>
 
   </body>
