@@ -90,6 +90,8 @@ var Layers = (function() {
 
             active = id;
 
+            Zoom.Preview.setBackground(layers[id]);
+
         },
         revert: function() {
             Layers.getActiveCanvas().replaceWith(undoableCanvas);
@@ -231,6 +233,14 @@ var App = {
 
         Zoom.init();
 
+        // $("#app-scroller").scroll(function() {
+        //     Zoom.Preview.refresh();
+        // });
+
+        $(window).resize(function() {
+            Zoom.Preview.refresh();
+        });
+
         $('body').tooltip({
           selector: "a[rel=tooltip]"
         });
@@ -244,6 +254,7 @@ var App = {
         App.body.toggleClass("editing", isEditing);
         App.isEditing = isEditing;
         ControlsView.setEnabled(isEditing);
+        Zoom.Preview.refresh();
     },
     compatible: function() {
         return !!document.createElement("canvas").getContext("2d");
@@ -291,6 +302,47 @@ var App = {
 
 var Zoom = {
     _el: null,
+    container: $([]),
+    Preview: {
+        handle: $([]),
+        el: $([]),
+        imgContainer: $([]),
+        refresh: function() {
+            var canvas = Layers.getActiveCanvas();
+            if (!canvas || !canvas.length) {
+                return;
+            }
+
+            var scroller = $("#app-scroller");
+            var scrollerHeight = scroller.height();
+            var scrollerWidth = scroller.width();
+            var heightRatio = (canvas.height() / scrollerHeight) * Zoom.get();
+            var widthRatio = (canvas.width() / scrollerWidth) * Zoom.get();
+
+            var boxWidth = Zoom.Preview.el.width();
+            var boxHeight = Zoom.Preview.el.height();
+            var scrollTop = scroller.scrollTop() / scrollerHeight;
+            var scrollLeft = scroller.scrollLeft() / scrollerWidth;
+
+            var imgWidth = Zoom.Preview.imgContainer.width();
+            var imgHeight = Zoom.Preview.imgContainer.height();
+
+            Zoom.container.toggleClass("show-preview", widthRatio > 1 || heightRatio > 1);
+            //Zoom.container.addClass("show-preview");
+
+            Zoom.Preview.handle.width(boxWidth / widthRatio).height(boxHeight / heightRatio).css({
+                top: (scrollTop * imgWidth) + "px",
+                left: (scrollLeft * imgHeight) + "px"
+            });
+        },
+        setBackground: function(img) {
+            Zoom.Preview.el.find("img").remove();
+            if (img) {
+                Zoom.Preview.el.find(".img").append(img);
+            }
+            Zoom.Preview.refresh();
+        }
+    },
     MAX_ZOOM: 4,
     MIN_ZOOM: 0.1,
 
@@ -304,7 +356,26 @@ var Zoom = {
             }
         });
 
-        $("#zoom-container").button().on("click", ".btn", function() {
+        Zoom.Preview.el = $("#zoom-preview");
+        Zoom.Preview.imgContainer = $("#zoom-preview .img");
+        Zoom.Preview.handle = $("#zoom-preview-handle");
+
+        Zoom.Preview.handle.draggable({
+            containment: "parent",
+            scroll: false,
+            drag: function(e, ui) {
+                var scroller = $("#app-scroller");
+                var leftPercentage = $(this).position().left / $(this).parent().width();
+                var topPercentage = $(this).position().top / $(this).parent().height();
+
+                scroller.scrollTop(scroller.height() * topPercentage);
+                scroller.scrollLeft(scroller.width() * leftPercentage);
+            }
+        });
+
+        Zoom.container = $("#zoom-container");
+
+        Zoom.container.button().on("click", ".btn", function() {
             if ($("#zoomFit").hasClass("active")) {
                 Zoom.set(1);
             }
@@ -337,6 +408,7 @@ var Zoom = {
 
         App.getImage().css("zoom", num);
         Zoom._el.slider("value", num * 100);
+        Zoom.Preview.refresh();
 
         App.resize();
     },
